@@ -16,7 +16,41 @@ jobs:
       - name: Run a one-line script
         run: echo Hello, world!
       
+      - name: Get name of open PR
+        id: get_pr
+        run: |
+          echo ${{ github.event.pull_request.title }}
+      
       - name: Get all open PRs in another repository
         id: get_prs
         run: |
-          echo ${{ github.event.pull_request.title }}
+          PRS=$(curl -s \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/pbharambe/PR-demo/pulls)
+          echo "$PRS" > prs.json
+          echo "::set-output name=prs::$PRS"
+      
+      - name: Filter PRs by commit messages
+        id: filter_prs
+        run: |
+          OPR_TITLE=${{ github.event.pull_request.title }}
+          PRS=$(cat prs.json)
+          for row in $(echo "${PRS}" | jq -r '.[] | @base64'); do
+            _jq() {
+              echo ${row} | base64 --decode | jq -r ${1}
+            }
+            PR_NUMBER=$(_jq '.number')
+            PR_TITLE=$(_jq '.title')
+            PR_STATUS=$(_jq '.state')
+
+            echo $PR_NUMBER
+            echo $PR_TITLE
+            
+            if [ "$PR_TITLE" = "$OPR_TITLE" ]; then
+              if [ "$PR_STATUS" != "closed" ]; then
+                echo "The required PR in the other repository is not merged."
+                 exit 1
+               fi
+            fi            
+          done
