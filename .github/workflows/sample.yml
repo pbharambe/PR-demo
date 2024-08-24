@@ -19,4 +19,4 @@ jobs:
       - name: Get all open PRs in another repository
         id: get_prs
         run: |
-          echo ${{ github.event.head_commit.message }}
+          echo ${{ github.event }}
