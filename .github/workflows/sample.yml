@@ -15,3 +15,28 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run a one-line script
         run: echo Hello, world!
+      
+      - name: Get all open PRs in another repository
+        id: get_prs
+        run: |
+          PRS=$(curl -s \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/pbharambe/PR-demo/pulls)
+          echo "$PRS" > prs.json
+          echo "::set-output name=prs::$PRS"
+      - name: Filter PRs by commit messages
+        id: filter_prs
+        run: |
+          PRS=$(cat prs.json)
+          for row in $(echo "${PRS}" | jq -r '.[] | @base64'); do
+            _jq() {
+              echo ${row} | base64 --decode | jq -r ${1}
+            }
+            PR_NUMBER=$(_jq '.number')
+            PR_TITLE=$(_jq '.title')
+
+            echo $PR_NUMBER
+            echo $PR_TITLE
+          done
+    
