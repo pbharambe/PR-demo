@@ -39,12 +39,7 @@ jobs:
             echo $PR_NUMBER
             echo $PR_TITLE
             if [ $PR_TITLE == 'Update README' ]; then
-              PR_STATUS=$(curl -s \
-                -H "Accept: application/vnd.github.v3+json" \
-                -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-                https://api.github.com/repos/other-org/other-repo/pulls/${PR_NUMBER} | jq -r .state)
-              
-              echo "PR status: $PR_STATUS"
+              echo $(_jq '.state')
             fi
 
 
