@@ -38,7 +38,7 @@ jobs:
 
             echo $PR_NUMBER
             echo $PR_TITLE
-            if [ $PR_TITLE == 'Update README' ]; then
+            if [ "$PR_TITLE" = "Update README" ]; then
               echo $(_jq '.state')
             fi
 
