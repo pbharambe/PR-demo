@@ -52,7 +52,7 @@ jobs:
             if [ "$PR_TITLE" = "${{ github.event.pull_request.title }}" ]; then
               if [ "$PR_STATUS" != "closed" ]; then
                 OUT_MESSAGE="The required PR $(_jq '.html_url') in the other repository is not merged."
-                echo $OUT_MESSAGE >> "$GITHUB_OUTPUT"
+                echo "handle=$OUT_MESSAGE" >> "$GITHUB_OUTPUT"
                  exit 1
               fi
             fi            
