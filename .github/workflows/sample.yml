@@ -34,7 +34,6 @@ jobs:
       - name: Filter PRs by commit messages
         id: filter_prs
         run: |
-          OPR_TITLE=${{ github.event.pull_request.title }}
           PRS=$(cat prs.json)
           for row in $(echo "${PRS}" | jq -r '.[] | @base64'); do
             _jq() {
@@ -46,9 +45,9 @@ jobs:
 
             echo $PR_NUMBER
             echo $PR_TITLE
-            echo $OPR_TITLE
+            echo ${{ github.event.pull_request.title }}
             
-            if [ "$PR_TITLE" = "$OPR_TITLE" ]; then
+            if [ "$PR_TITLE" = "TEST" ]; then
               if [ "$PR_STATUS" != "closed" ]; then
                 echo "The required PR in the other repository is not merged."
                  exit 1
