@@ -46,6 +46,7 @@ jobs:
 
             echo $PR_NUMBER
             echo $PR_TITLE
+            echo $OPR_TITLE
             
             if [ "$PR_TITLE" = "$OPR_TITLE" ]; then
               if [ "$PR_STATUS" != "closed" ]; then
