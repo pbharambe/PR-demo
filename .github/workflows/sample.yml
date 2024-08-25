@@ -27,7 +27,7 @@ jobs:
           PRS=$(curl -s \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/repos/pbharambe/PR-demo/pulls)
+            https://api.github.com/repos/pbharambe/gitHub-action-demo/pulls)
           echo "$PRS" > prs.json
           echo "::set-output name=prs::$PRS"
       
