@@ -30,8 +30,8 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/pbharambe/gitHub-action-demo/pulls)
-          # echo "$PRS" > prs.json
-          # echo "::set-output name=prs::$PRS"
+          echo "$PRS" > prs.json
+          echo "::set-output name=prs::$PRS"
       
       - name: Filter PRs by commit messages
         id: filter_prs
