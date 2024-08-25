@@ -47,7 +47,7 @@ jobs:
             echo $PR_TITLE
             echo ${{ github.event.pull_request.title }}
             
-            if [ "$PR_TITLE" = "TEST" ]; then
+            if [ "$PR_TITLE" = "${{ github.event.pull_request.title }}" ]; then
               if [ "$PR_STATUS" != "closed" ]; then
                 echo "The required PR in the other repository is not merged."
                  exit 1
