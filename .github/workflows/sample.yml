@@ -11,6 +11,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      handle: ${{ steps.filter_prs.outputs.handle }}
     steps:
       - uses: actions/checkout@v4
       - name: Run a one-line script
@@ -49,8 +51,8 @@ jobs:
             
             if [ "$PR_TITLE" = "${{ github.event.pull_request.title }}" ]; then
               if [ "$PR_STATUS" != "closed" ]; then
-                echo "The required PR $(_jq '.html_url') in the other repository is not merged."
+                echo "The required PR $(_jq '.html_url') in the other repository is not merged." >> "$GITHUB_OUTPUT"
                  exit 1
-               fi
+              fi
             fi            
           done
