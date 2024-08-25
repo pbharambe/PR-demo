@@ -30,8 +30,8 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/pbharambe/gitHub-action-demo/pulls)
-          echo "$PRS" > prs.json
-          echo "::set-output name=prs::$PRS"
+          # echo "$PRS" > prs.json
+          # echo "::set-output name=prs::$PRS"
       
       - name: Filter PRs by commit messages
         id: filter_prs
@@ -52,8 +52,9 @@ jobs:
             if [ "$PR_TITLE" = "${{ github.event.pull_request.title }}" ]; then
               if [ "$PR_STATUS" != "closed" ]; then
                 OUT_MESSAGE="The required PR $(_jq '.html_url') in the other repository is not merged."
+                echo $OUT_MESSAGE
                 echo "handle=$OUT_MESSAGE" >> "$GITHUB_OUTPUT"
-                 exit 1
+                exit 1
               fi
             fi            
           done
