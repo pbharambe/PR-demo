@@ -54,5 +54,6 @@ jobs:
                 echo "$OUT_MESSAGE" >> "$GITHUB_OUTPUT"
                 exit 1
               fi
-            fi            
+            fi
+            echo "Done" >> "$GITHUB_OUTPUT"
           done
