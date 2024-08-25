@@ -51,10 +51,8 @@ jobs:
               if [ "$PR_STATUS" != "closed" ]; then
                 OUT_MESSAGE="The required PR $(_jq '.html_url') in the other repository is not merged."
                 echo $OUT_MESSAGE
-                echo "OUT_MESSAGE=$OUT_MESSAGE" >> "$GITHUB_OUTPUT"
+                #echo "OUT_MESSAGE=$OUT_MESSAGE" >> "$GITHUB_OUTPUT"
                 exit 1
               fi
             fi
-            RESPONSE="DONE"
-            echo "RESPONSE=$RESPONSE" >> "$GITHUB_OUTPUT"
           done
